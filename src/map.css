@@ -1,0 +1,233 @@
+.galaxy-scene {
+  --camera-room: 21rem;
+  --map-padding: clamp(.7rem, 2.2vw, 1.75rem);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: var(--camera-room) auto;
+  place-items: stretch;
+  align-content: stretch;
+  gap: .55rem;
+  min-height: 0;
+  padding: var(--map-padding);
+  overflow: hidden;
+  background: radial-gradient(ellipse at 64% 37%, var(--tint), #0b111e 62%, #090e19);
+}
+
+.galaxy-scene::before {
+  inset: 0;
+  background-position: center 27%;
+  background-size: min(90%, 44rem) auto;
+  opacity: .55;
+}
+
+.galaxy-scene:has(.astro-focus:not([hidden]))::before { opacity: .26; }
+
+.planet-grid {
+  grid-area: 2 / 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: center;
+  align-items: stretch;
+  gap: .55rem;
+  padding: .33rem;
+  min-height: 0;
+  min-width: 0;
+}
+
+.planet-grid > li { min-width: 0; }
+
+.planet-node {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  justify-items: center;
+  gap: .3rem;
+  width: 100%;
+  height: 100%;
+  padding: .55rem .25rem .25rem;
+  border: 1px solid transparent;
+  border-radius: .65rem;
+  background: #0b122180;
+  color: var(--ink);
+  text-align: left;
+}
+
+button.planet-node { cursor: pointer; touch-action: manipulation; }
+
+.planet-node > .astro { --astro-size: clamp(3.25rem, 11vw, 4.85rem); }
+
+.planet-node .node-label {
+  width: 100%;
+  min-height: 44px;
+  align-self: stretch;
+  padding: .32rem .42rem;
+  gap: .25rem;
+  box-shadow: none;
+}
+
+.planet-node .node-label strong { font-size: .88rem; }
+.planet-node .node-label small { font-size: .72rem; }
+
+.planet-node[data-astro-id]:is(:hover, :focus-visible, [aria-pressed='true']) {
+  border-color: var(--accent);
+  background: #192138;
+}
+
+.planet-node[aria-pressed='true'] .node-label { border-color: var(--accent); }
+
+.planet-node[aria-pressed='true'] .target {
+  background: var(--accent);
+  color: #0b111e;
+  border-color: var(--accent);
+}
+
+.decorative-astro .planet-node { background: none; }
+.decorative-astro .astro { opacity: .65; }
+
+.decorative-astro .node-label,
+.decorative-astro .planet-node:hover .node-label {
+  justify-content: center;
+  text-align: center;
+  border: 1px dashed #455375a8;
+  background: #080e1a80;
+  color: var(--muted);
+}
+
+.decorative-astro .node-label small { color: var(--muted); }
+
+.astro-focus {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto auto;
+  place-content: center;
+  justify-items: center;
+  gap: .45rem;
+  min-width: 0;
+  padding: .65rem .4rem;
+  text-align: center;
+  scroll-margin-block: 7.5rem 1rem;
+}
+
+.astro-focus[hidden] { display: none; }
+
+.astro-preview {
+  position: relative;
+  display: grid;
+  width: 100%;
+  place-items: center;
+  isolation: isolate;
+}
+
+.astro-preview::before,
+.astro-preview::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  width: min(94%, 20rem);
+  height: 80%;
+  border: 1px solid #a4b8fa37;
+  border-radius: 50%;
+  transform: rotate(-17deg);
+}
+
+.astro-preview::after { width: min(75%, 16rem); height: 63%; border-style: dashed; }
+
+.astro-preview > .astro {
+  --astro-size: clamp(6rem, 21vw, 9rem);
+  pointer-events: none;
+}
+
+.astro-info { display: grid; justify-items: center; gap: .4rem; min-width: 0; }
+.astro-info h2 { font-size: clamp(1.25rem, 4vw, 2.35rem); line-height: 1.06; letter-spacing: -.04em; text-wrap: balance; overflow-wrap: anywhere; }
+.astro-info p { max-width: 37ch; color: var(--muted); font-size: .95rem; text-wrap: pretty; }
+.astro-info .actions { justify-content: center; }
+.astro-info .eyebrow { color: var(--accent); font-size: .75rem; }
+.case-art > .astro { --astro-size: clamp(8rem, 18vw, 16rem); }
+
+@media (min-width: 590px) {
+  .planet-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 760px) {
+  .galaxy-scene {
+    --camera-room: clamp(21rem, 44vh, 36rem);
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-rows: minmax(var(--camera-room), auto);
+    column-gap: clamp(.6rem, 3vw, 2.2rem);
+  }
+
+  .galaxy-scene::before { background-position: 78% center; }
+  .planet-grid { grid-area: 1 / 1; }
+  .planet-node > .astro { --astro-size: clamp(3.25rem, 7vw, 6.5rem); }
+  .astro-focus { grid-area: 1 / 2; gap: .75rem; padding-inline: .3rem; }
+  .astro-preview > .astro { --astro-size: clamp(8rem, min(25vw, 30dvh), 17rem); }
+}
+
+@media (min-width: 1040px) {
+  .planet-grid { gap: .65rem; }
+  .planet-node .node-label { padding-inline: .55rem; }
+}
+
+.map-expanded .galaxy-scene {
+  grid-template-rows: var(--camera-room) minmax(0, 1fr);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+.map-expanded .planet-grid {
+  align-content: start;
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+@media (min-width: 760px) {
+  .map-expanded .galaxy-scene { grid-template-rows: minmax(0, 1fr); }
+  .map-expanded .planet-grid { align-content: safe center; }
+  .map-expanded .astro-focus { place-content: safe center; }
+}
+
+@media (max-width: 759px) and (max-height: 690px) {
+  .galaxy-scene { --camera-room: 13rem; }
+  .astro-preview > .astro { --astro-size: clamp(5.25rem, 20vw, 7rem); }
+  .astro-info p:not(.eyebrow) { display: none; }
+}
+
+@media (max-width: 759px) and (min-height: 691px) {
+  .map-expanded .galaxy-scene { --camera-room: 17rem; }
+  .map-expanded .astro-info .astro-summary { display: none; }
+}
+
+@media (max-width: 440px) and (max-height: 690px) {
+  .astro-focus {
+    grid-template-columns: minmax(3.5rem, .52fr) minmax(0, 1fr);
+    grid-template-rows: auto;
+    align-items: center;
+    padding-inline: 0;
+  }
+  .astro-preview > .astro { --astro-size: clamp(4.5rem, 23vw, 6rem); }
+  .astro-info .actions .button { padding-inline: .55rem; }
+}
+
+@media (min-width: 500px) and (max-width: 759px) and (max-height: 540px) {
+  .galaxy-scene { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
+  .map-expanded .galaxy-scene { grid-template-rows: minmax(0, 1fr); }
+  .planet-grid { grid-area: 1 / 1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .astro-focus { grid-area: 1 / 2; padding-block: .3rem; gap: .25rem; }
+  .astro-preview > .astro { --astro-size: clamp(4rem, 24dvh, 6rem); }
+}
+
+@media (max-height: 550px) and (min-width: 760px) {
+  .galaxy-scene { --camera-room: 16rem; }
+  .planet-node > .astro { --astro-size: 3.15rem; }
+  .astro-focus { gap: .35rem; }
+  .astro-preview > .astro { --astro-size: clamp(4.8rem, 26dvh, 8rem); }
+  .astro-info h2 { font-size: clamp(1.15rem, 2.7vw, 1.7rem); }
+  .astro-info p:not(.eyebrow) { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galaxy-scene *, .galaxy-scene *::before, .galaxy-scene *::after { scroll-behavior: auto; }
+}

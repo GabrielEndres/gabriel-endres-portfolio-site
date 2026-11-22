@@ -1,0 +1,203 @@
+.astro {
+  position: relative;
+  display: block;
+  inline-size: var(--astro-size, 5rem);
+  aspect-ratio: 1;
+  flex: none;
+  isolation: isolate;
+  pointer-events: none;
+  --rib: #9ab7ef62;
+  --limb: #deeffc60;
+  --disc-inset: 15%;
+}
+
+.astro > span { position: absolute; display: block; }
+
+.astro__halo {
+  inset: -4%;
+  background: radial-gradient(circle, var(--rib), transparent 69%);
+  opacity: .6;
+}
+
+.astro__disc {
+  inset: var(--disc-inset);
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--surface, #a6bacb);
+  box-shadow: inset 1px 1px 3px var(--limb), 0 0 0 1px var(--rib);
+}
+
+.astro--planet .astro__disc::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at 28% 26%, #fff3, transparent 50%),
+    radial-gradient(ellipse at 29% 30%, transparent 32%, #080b1436 60%, #03040deb 98%);
+}
+
+.astro--planet.astro--detail .astro__disc::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--texture) center / cover no-repeat;
+}
+
+.astro--mercury {
+  --disc-inset: 20%;
+  --rib: #adacaa62;
+  --texture: url('../media/astro/mercury.webp');
+  --surface: radial-gradient(circle at 26% 35%, #aca8b0 0 6%, #6a6671 10%, transparent 13%),
+    radial-gradient(circle at 65% 49%, #817d86 0 8%, #514d5a 12%, transparent 18%),
+    radial-gradient(circle at 44% 68%, #85818c 0 5%, #514d5a 9%, transparent 12%),
+    radial-gradient(circle at 35% 24%, #dad6d2, #827d82 62%, #4c4852);
+}
+
+.astro--venus {
+  --rib: #dfab6b87;
+  --texture: url('../media/astro/venus.webp');
+  --surface: repeating-radial-gradient(ellipse at 140% 35%, #ffe6b93a 0 6%, #a4604c2c 8% 14%, #ffd79e5c 16% 21%),
+    linear-gradient(154deg, #e3b777, #bd804b 52%, #a95133);
+}
+
+.astro--earth {
+  --rib: #659dfca3;
+  --limb: #b1efffb3;
+  --texture: url('../media/astro/earth.webp');
+  --surface: repeating-radial-gradient(ellipse at 113% 53%, #e9f9ff8a 0 2%, transparent 8% 18%),
+    radial-gradient(ellipse at 26% 44%, #7f9a6d 0 10%, transparent 16%),
+    radial-gradient(ellipse at 42% 36%, #599579 0 19%, transparent 24%),
+    radial-gradient(ellipse at 55% 66%, #bec380 0 7%, transparent 15%),
+    linear-gradient(145deg, #4796e3, #123a90 66%, #081b46);
+}
+
+.astro--mars {
+  --disc-inset: 18%;
+  --rib: #e189645e;
+  --texture: url('../media/astro/mars.webp');
+  --surface: radial-gradient(ellipse at 51% 1%, #ffe6cc, transparent 17%),
+    radial-gradient(ellipse at 53% 38%, #7e323a 0 7%, transparent 24%),
+    radial-gradient(ellipse at 32% 62%, #8d422f 0 12%, transparent 35%),
+    linear-gradient(128deg, #e2a479, #bf6249 62%, #801f26);
+}
+
+.astro--jupiter {
+  --disc-inset: 10%;
+  --rib: #e4b58669;
+  --texture: url('../media/astro/jupiter.webp');
+  --surface: radial-gradient(ellipse 28% 10% at 68% 62%, #9e4f44 12%, #bf6b52 26%, #ecb694 55%, transparent 68%),
+    linear-gradient(164deg, #b08569 15%, #dcb995 22%, #f1d9bb 30%, #b07864 34%, #bd8a74 42%,
+      #f0cba5 50%, #e2aa84 57%, #a77363 64%, #e0b899 69%, #ead3b7 79%, #bb8a76 85%);
+}
+
+.astro--saturn {
+  --disc-inset: 21%;
+  --rib: #f2c9865c;
+  --texture: url('../media/astro/saturn.webp');
+  --surface: repeating-linear-gradient(166deg, #e8bf8d 0 7%, #f1d5af 11% 12%, #be9b7a 16% 20%);
+}
+
+.astro--saturn .astro__accent, .astro--saturn::after {
+  content: '';
+  position: absolute;
+  inset: 38% 1%;
+  border: .23rem double #e2c398c2;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #a4826396, inset 0 0 0 1px #6f5c4c;
+  transform: rotate(-22deg);
+}
+
+.astro--saturn::after { z-index: -1; }
+.astro--saturn .astro__accent { clip-path: inset(48% 0 -8%); }
+
+.astro--uranus {
+  --rib: #a1e5ed91;
+  --limb: #dcfcfab3;
+  --texture: url('../media/astro/uranus.webp');
+  --surface: repeating-linear-gradient(44deg, #c2eae445 0 7%, #739fac24 8% 11%, transparent 16% 22%),
+    linear-gradient(140deg, #b1f0e7, #7abdc6 57%, #417b92);
+}
+
+.astro--neptune {
+  --rib: #648affb5;
+  --limb: #aac9ff99;
+  --texture: url('../media/astro/neptune.webp');
+  --surface: radial-gradient(ellipse 34% 14% at 41% 47%, #162d817d 0 30%, transparent 77%),
+    repeating-linear-gradient(160deg, transparent 0 13%, #c8e3ff4a 16%, transparent 19% 22%),
+    linear-gradient(136deg, #76b2ff, #3c64d6 50%, #141f6a);
+}
+
+.astro--star .astro__disc {
+  background: radial-gradient(circle at 37% 27%, var(--core), var(--corona) 70%, var(--edge) 98%);
+  box-shadow: 0 0 .6rem var(--rib), inset 0 0 .3rem var(--edge);
+}
+
+.astro--star .astro__disc::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-conic-gradient(from 22deg at 38% 39%, var(--edge) 0 3deg, transparent 5deg 21deg, var(--core) 26deg 33deg);
+  opacity: .24;
+}
+
+.astro--star .astro__halo {
+  inset: -12%;
+  background: radial-gradient(circle, var(--rib), transparent 65%);
+  opacity: .85;
+}
+
+.astro--red-dwarf { --core: #ffd0a5; --corona: #e75640; --edge: #7b170d; --rib: #f250424a; --disc-inset: 26%; }
+.astro--sun { --core: #fff2ac; --corona: #ffc447; --edge: #a9390d; --rib: #ffb72873; --disc-inset: 16%; }
+.astro--blue-giant { --core: #f7fcff; --corona: #94c9ff; --edge: #3255e0; --rib: #5f95ff9c; --disc-inset: 10%; }
+.astro--neutron-star { --core: #fff; --corona: #c8f5ff; --edge: #486af8; --rib: #6794ffcc; --disc-inset: 38%; }
+
+.astro--detail:is(.astro--red-dwarf, .astro--sun, .astro--blue-giant) .astro__disc::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: url('../media/space/star.webp') center / 153% no-repeat;
+}
+
+.astro--red-dwarf.astro--detail .astro__disc::after { filter: hue-rotate(-20deg) saturate(.8) brightness(.8); }
+.astro--blue-giant.astro--detail .astro__disc::after { filter: hue-rotate(174deg) saturate(.55) brightness(1.55); }
+
+.astro--black-hole { --rib: #c85ae671; --core: #050413; --ring: #f0adff; --disc-inset: 30%; --axis: -22deg; }
+.astro--white-hole { --rib: #98e4ff8f; --core: #fffcf7; --ring: #b6ecff; --disc-inset: 33%; --axis: 23deg; }
+.astro--quasar { --rib: #ff77b4a1; --core: #fff2e3; --ring: #ffb4e5; --disc-inset: 41%; --axis: -16deg; }
+
+.astro:is(.astro--black-hole, .astro--white-hole, .astro--quasar) .astro__disc {
+  z-index: 1;
+  background: radial-gradient(circle, var(--core) 58%, var(--ring) 78%, var(--rib) 100%);
+  box-shadow: 0 0 .7rem var(--rib);
+}
+
+.astro:is(.astro--black-hole, .astro--white-hole, .astro--quasar) .astro__accent {
+  z-index: 2;
+  inset: 39% 5%;
+  transform: rotate(var(--axis));
+  border: 1px solid var(--ring);
+  border-radius: 50%;
+  box-shadow: 0 0 .4rem var(--rib), 0 0 0 .18rem var(--rib), inset 0 -.16rem .18rem var(--ring);
+}
+
+.astro--black-hole.astro--detail { background: url('../media/space/black-hole.webp') center / contain no-repeat; }
+.astro--black-hole.astro--detail > span { opacity: 0; }
+
+.astro--neutron-star::after, .astro--quasar::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 1% 37%;
+  transform: rotate(27deg);
+  background: linear-gradient(transparent, var(--rib) 25%, var(--core) 50%, var(--rib) 75%, transparent);
+  clip-path: polygon(11% 0, 89% 0, 66% 50%, 89% 100%, 11% 100%, 34% 50%);
+}
+
+.astro--neutron-star::after { inset: 8% 44%; transform: rotate(-45deg); }
+
+@media (max-width: 560px) {
+  .astro__halo { opacity: .45; }
+  .astro--saturn .astro__accent, .astro--saturn::after { border-width: .18rem; }
+}

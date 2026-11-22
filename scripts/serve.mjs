@@ -2,11 +2,9 @@ import { spawnSync } from 'node:child_process';
 import { createReadStream, statSync, watch } from 'node:fs';
 import { createServer } from 'node:http';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { base, previewOutput as output, repo } from './site-paths.mjs';
 
-const repo = fileURLToPath(new URL('../', import.meta.url));
-const output = path.join(repo, '.preview', 'site');
-const port = Number(process.env.PORT ?? 4173);
+const port = Number(process.env.PORT ?? (base === '/' ? 4173 : 4174));
 const types = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
   '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml',
@@ -57,7 +55,15 @@ const server = createServer((request, response) => {
 
   try {
     const { pathname, search } = new URL(request.url, 'http://localhost');
-    const file = path.resolve(output, `.${decodeURIComponent(pathname)}`);
+    if (pathname === base.slice(0, -1)) {
+      response.writeHead(308, { Location: `${base}${search}` }).end();
+      return;
+    }
+    if (!pathname.startsWith(base)) {
+      sendFile(path.join(output, '404.html'), response, request, 404);
+      return;
+    }
+    const file = path.resolve(output, `./${decodeURIComponent(pathname.slice(base.length))}`);
     const relative = path.relative(output, file);
     if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
       response.writeHead(403).end();
@@ -81,7 +87,7 @@ const server = createServer((request, response) => {
 });
 
 server.listen(port, '127.0.0.1', () => {
-  console.log(`Local preview: http://127.0.0.1:${server.address().port}/`);
+  console.log(`Local preview: http://127.0.0.1:${server.address().port}${base}`);
 });
 
 let timer;

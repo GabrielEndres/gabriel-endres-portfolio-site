@@ -1,20 +1,15 @@
-import { copyFile, cp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { categories, projects } from '../src/content/projects.mjs';
 import { fullName, profile } from '../src/content/profile.mjs';
 import { galaxyPath, projectPath, resolveRoute } from '../src/navigation/routes.mjs';
 import { escapeHtml, pageTitle, renderSite } from '../src/ui/views.mjs';
+import { base, previewOutput, repo } from './site-paths.mjs';
 
-const repo = fileURLToPath(new URL('../', import.meta.url));
 const preview = process.argv.includes('--preview');
-const output = path.join(repo, preview ? '.preview/site' : 'dist');
-const edition = preview ? '' : (process.env.PORTFOLIO_BASE ?? '').replace(/^\/+|\/+$/g, '');
-if (!/^(?:[\w-]+(?:\/[\w-]+)*)?$/.test(edition)) throw new Error('Invalid PORTFOLIO_BASE.');
-const base = edition ? `/${edition}/` : '/';
-const cvSource = path.join(repo, preview ? '.preview/cv.pdf' : 'public/media/cv.pdf');
-const cv = existsSync(cvSource);
+const output = preview ? previewOutput : path.join(repo, 'dist');
+const cv = existsSync(path.join(repo, 'public/media/cv.pdf'));
 
 const slugs = new Set();
 for (const project of projects) {
@@ -61,8 +56,6 @@ await Promise.all([
   cp(path.join(repo, 'src'), path.join(output, 'assets'), { recursive: true }),
   cp(path.join(repo, 'public'), output, { recursive: true }),
 ]);
-if (preview && cv) await copyFile(cvSource, path.join(output, 'media/cv.pdf'));
-
 const routes = ['', 'perfil/', ...categories.map(({ id }) => galaxyPath(id)), ...projects.map(({ id }) => projectPath(id))];
 await Promise.all(routes.map(async (route) => {
   const directory = path.join(output, route);

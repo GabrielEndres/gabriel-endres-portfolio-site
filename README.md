@@ -1,4 +1,4 @@
-# gabriel-endres-portfolio
+# gabriel-endres-portfolio-site
 
 Portefólio de Gabriel Carneiro Endres em português de Portugal e inglês. O mapa do universo, o índice e as fichas apresentam projetos académicos, web e de IA.
 
@@ -6,7 +6,20 @@ Portefólio de Gabriel Carneiro Endres em português de Portugal e inglês. O ma
 
 Com Node.js 22 ou posterior, executa `npm run dev` e abre [a pré-visualização](http://127.0.0.1:4173/). O servidor escuta apenas em localhost e volta a gerar as páginas quando os ficheiros de `src/` ou `public/` mudam. Recarrega a página para ver as alterações.
 
-`npm run build` gera o site estático em `dist/`. O ficheiro `index.html` de cada galáxia e projeto permite abrir e recarregar URLs como `/galaxias/academic/` e `/projetos/eigenfaces/`. Para servir o site num subdiretório, define `PORTFOLIO_BASE` com o nome desse diretório antes de gerar o site. Por exemplo, no PowerShell, usa `$env:PORTFOLIO_BASE = 'gabriel-endres-portfolio'`.
+`npm run build` gera o site estático em `dist/`. O ficheiro `index.html` de cada galáxia e projeto permite abrir e recarregar URLs como `/galaxias/academic/` e `/projetos/eigenfaces/`. Para servir o site num subdiretório, define `PORTFOLIO_BASE` com o nome desse diretório antes de gerar o site. Por exemplo, no PowerShell, usa `$env:PORTFOLIO_BASE = 'gabriel-endres-portfolio-site'`.
+
+## GitHub Pages
+
+Para testar localmente com o caminho público, executa no PowerShell:
+
+```powershell
+$env:PORTFOLIO_BASE = '/gabriel-endres-portfolio-site/'
+npm run dev
+```
+
+Abre [a pré-visualização com o caminho do GitHub Pages](http://127.0.0.1:4174/gabriel-endres-portfolio-site/). O CV vem de `public/media/cv.pdf`.
+
+Depois de aprovares o site e a versão pública do CV, coloca apenas o PDF aprovado em `public/media/cv.pdf`. No repositório, seleciona **GitHub Actions** em **Settings → Pages → Source** e integra o fluxo `.github/workflows/pages.yml` em `main`. Cada push para `main` gera `dist/` com o prefixo `/gabriel-endres-portfolio-site/` e publica esse artefacto. Também podes iniciar o fluxo manualmente na aba **Actions**, selecionando `main`.
 
 ## Adicionar ou atualizar projetos
 
@@ -30,9 +43,7 @@ Preenche `featuredProjectIds` em `src/content/projects.mjs` com os identificador
 
 ## Atualizar o CV
 
-Para a pré-visualização, guarda a versão em revisão em `.preview/cv.pdf` e reinicia `npm run dev`. A pasta `.preview/` está excluída do Git. O servidor inclui a cópia local em `/media/cv.pdf` e o botão abre-a num novo separador.
-
-Depois de aprovada a versão a divulgar, guarda o PDF aprovado em `public/media/cv.pdf` e executa `npm run build`. O botão entra na compilação pública quando esse ficheiro existe. A publicação é um passo separado da compilação.
+Substitui apenas `public/media/cv.pdf` pelo novo PDF. O servidor local volta a gerar a pré-visualização quando esse ficheiro muda. `npm run build` inclui o mesmo PDF em `dist/`, e o fluxo do GitHub Pages usa essa compilação ao publicar. As pastas `.preview/` e `dist/` são geradas automaticamente.
 
 ## Estrutura
 

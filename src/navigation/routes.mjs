@@ -10,8 +10,8 @@ export function projectPath(id) {
 
 export function resolveRoute(pathname, base) {
   if (!pathname.startsWith(base)) return { type: 'notFound' };
-  const path = pathname.slice(base.length).replace(/\/+$/, '');
-  if (!path || path === 'index.html') return { type: 'home' };
+  const path = pathname.slice(base.length).replace(/(?:^|\/)index\.html$/, '').replace(/\/+$/, '');
+  if (!path) return { type: 'home' };
   if (path === 'perfil') return { type: 'profile' };
 
   const [section, id, extra] = path.split('/');
